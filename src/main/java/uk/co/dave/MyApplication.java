@@ -1,14 +1,12 @@
-package uk.co.dave.consumer.fxrate;
+package uk.co.dave;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
-
 @SpringBootApplication
-public class FxRateConsumerApplication {
+public class MyApplication {
   public static void main(String[] args) {
-    SpringApplication.run(FxRateConsumerApplication.class, args);
+    SpringApplication.run(MyApplication.class, args);
   }
 
 }
