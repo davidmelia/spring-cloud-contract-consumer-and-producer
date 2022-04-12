@@ -6,7 +6,7 @@ Contract.make {
 		url '/tests'
 		multipart(
 				[
-						file1: named(
+						files: named(
 								name: value(consumer(regex(nonEmpty())), producer('filename1')),
 								content: value(consumer(regex(nonEmpty())), producer('content1'))),
 						test : named(

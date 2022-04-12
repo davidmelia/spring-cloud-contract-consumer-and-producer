@@ -9,7 +9,7 @@
       }
     },
     "bodyPatterns" : [ {
-      "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"file1\"; filename=\"[\\S\\s]+\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
+      "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"files\"; filename=\"[\\S\\s]+\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
     }, {
       "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"test\"; filename=\"[\\S\\s]+\"\r?\n(Content-Type: application/json\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
     } ]
