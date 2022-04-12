@@ -6,6 +6,7 @@
 	    <groupId>org.springframework.boot</groupId>
 	    <artifactId>spring-boot-starter-parent</artifactId>
 	    <version>2.6.6</version>
+<!-- 	    <version>2.5.8</version>	 -->    
     </parent>
     <artifactId>spring-cloud-contract-consumer-and-producer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -14,6 +15,7 @@
     <description>Spring Cloud Contract Consumer and Producer</description>
  
     <properties>
+    	<spring-cloud-contract.version>3.1.1</spring-cloud-contract.version>
         <sonar.projectKey>${project.artifactId}</sonar.projectKey>
         <java.version>17</java.version>
     </properties>
@@ -33,7 +35,12 @@
 			<groupId>io.netty</groupId>
 			<artifactId>netty-resolver-dns-native-macos</artifactId>
 			<classifier>osx-aarch_64</classifier>
-		</dependency>             
+		</dependency>   
+        <dependency>
+	        <groupId>com.github.tomakehurst</groupId>
+	        <artifactId>wiremock-jre8-standalone</artifactId>
+	        <version>2.32.0</version>
+      	</dependency>  			          
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
@@ -49,11 +56,32 @@
 		    <groupId>org.springframework.cloud</groupId>
 		    <artifactId>spring-cloud-starter-contract-stub-runner</artifactId>
 			<scope>test</scope>
-		</dependency>        
+		</dependency>    
+      <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-contract-verifier</artifactId>
+            <scope>test</scope>
+        </dependency>		    
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>
-        <plugins>        
+        <plugins>    
+			<plugin>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-contract-maven-plugin</artifactId>
+				<version>${spring-cloud-contract.version}</version>
+				<extensions>true</extensions>
+				<configuration>
+                    <baseClassForTests>uk.co.dave.ContractTestBase</baseClassForTests>		
+                    <testFramework>JUNIT5</testFramework>
+					<testMode>EXPLICIT</testMode> <!-- This allows spring cloud contract to support context roots -->
+					<!-- incremental causes contract tests to not run on the build box - do not turn on -->
+					<!-- https://github.com/spring-cloud/spring-cloud-contract/issues/1677 -->
+					<incrementalContractTests>false</incrementalContractTests>
+					<incrementalContractStubs>false</incrementalContractStubs>
+					<incrementalContractStubsJar>false</incrementalContractStubsJar>
+				</configuration>
+			</plugin>            
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -68,7 +96,8 @@
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<version>2021.0.1</version>			
+				<version>2021.0.1</version>
+<!-- 				<version>2020.0.4</version>		 -->						
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>	
