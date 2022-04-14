@@ -6,6 +6,9 @@ Contract.make {
 		url '/tests1'
 		multipart(
 				[
+		                subject: $(c(regex(nonEmpty())), p('subject')),
+		                body: $(c(regex(nonEmpty())), p('body')),
+		                topic: $(c(regex(nonEmpty())), p('GQ')),				
 						files: named(
 								name: value(consumer(regex(nonEmpty())), producer('filename1')),
 								content: value(consumer(regex(nonEmpty())), producer('content1')))
@@ -17,12 +20,6 @@ Contract.make {
 		}
 	}
 	response {
-		status 200
-		body([
-				status: 'ok'
-		])
-		headers {
-			contentType('application/json')
-		}
+		status 201
 	}
 }

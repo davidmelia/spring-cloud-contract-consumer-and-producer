@@ -23,6 +23,7 @@ import uk.co.dave.controller.TestDto;
 // @TestPropertySource(properties =
 // {"uk.co.dave.external-service-url=http://localhost:${wiremock.server.port}/tests"})
 @AutoConfigureWebTestClient(timeout = "1m")
+// @Disabled
 public class TestControllerIntegrationTest {
 
   @Autowired
@@ -34,7 +35,7 @@ public class TestControllerIntegrationTest {
     MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
     multipartBodyBuilder.part("subject", "subject");
     multipartBodyBuilder.part("body", "body");
-    multipartBodyBuilder.part("topic", "topic");
+    multipartBodyBuilder.part("topic", "GQ");
     multipartBodyBuilder.part("files", new FileSystemResource("/Users/meliad2/git/spring-cloud-contract-consumer-and-producer/src/test/resources/dave.txt"));
     multipartBodyBuilder.part("test", new TestDto("SomeData"), MediaType.APPLICATION_JSON);
     this.webTestClient.post().uri("/tests").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build())).header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange()
@@ -46,7 +47,7 @@ public class TestControllerIntegrationTest {
     MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
     multipartBodyBuilder.part("subject", "subject");
     multipartBodyBuilder.part("body", "body");
-    multipartBodyBuilder.part("topic", "topic");
+    multipartBodyBuilder.part("topic", "GQ");
     multipartBodyBuilder.part("files", new FileSystemResource("/Users/meliad2/git/spring-cloud-contract-consumer-and-producer/src/test/resources/dave.txt"));
     this.webTestClient.post().uri("/tests1").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build())).header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange()
         .expectStatus().isOk();

@@ -1,5 +1,5 @@
 {
-  "id" : "6e47cc93-c492-4b60-b939-84a7f3aabe88",
+  "id" : "29a36e16-aba5-4ede-ae5e-3fd5fef227fb",
   "request" : {
     "url" : "/tests1",
     "method" : "POST",
@@ -9,16 +9,18 @@
       }
     },
     "bodyPatterns" : [ {
+      "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"subject\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
+    }, {
+      "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"body\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
+    }, {
+      "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"topic\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
+    }, {
       "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"files\"; filename=\"[\\S\\s]+\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
     } ]
   },
   "response" : {
-    "status" : 200,
-    "body" : "{\"status\":\"ok\"}",
-    "headers" : {
-      "Content-Type" : "application/json"
-    },
+    "status" : 201,
     "transformers" : [ "response-template", "spring-cloud-contract" ]
   },
-  "uuid" : "6e47cc93-c492-4b60-b939-84a7f3aabe88"
+  "uuid" : "29a36e16-aba5-4ede-ae5e-3fd5fef227fb"
 }

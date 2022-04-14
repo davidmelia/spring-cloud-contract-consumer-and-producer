@@ -1,9 +1,12 @@
 package uk.co.dave.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.http.codec.multipart.FilePart;
+import org.springframework.http.codec.multipart.FormFieldPart;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -25,7 +28,10 @@ public class TestController {
   }
 
   @PostMapping("/hardcoded-tests")
-  public Mono<TestDto> hardcodedMultipart(@RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux, @RequestPart(name = "test") TestDto test) {
+  public Mono<ResponseEntity<Void>> hardcodedMultipart(@RequestPart FormFieldPart subject, @RequestPart FormFieldPart body, @RequestPart FormFieldPart topic,
+      @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
+    log.info("hardcodedMultipart");
+
     return filePartFlux.flatMap(filePart -> {
       log.info("{}", filePart.name());
 
@@ -34,7 +40,7 @@ public class TestController {
         return bufferList;
       });
 
-    }).collectList().thenReturn(new TestDto(test.getStatus()));
+    }).collectList().thenReturn(new ResponseEntity<Void>(HttpStatus.CREATED));
   }
 
   @PostMapping("/tests")
@@ -53,10 +59,16 @@ public class TestController {
   }
 
   @PostMapping("/tests1")
-  public Mono<TestDto> createNew1(@RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
+  public Mono<TestDto> createNew1(@RequestPart FormFieldPart subject, @RequestPart FormFieldPart body, @RequestPart FormFieldPart topic,
+      @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
 
     Mono<TestDto> result = filePartFlux.collectList().flatMap(fileParts -> {
       var builder = new MultipartBodyBuilder();
+
+      builder.part("subject", subject.value());
+      builder.part("body", body.value());
+      builder.part("topic", topic.value());
+
       for (var file : fileParts) {
         builder.part("files", file);
       }
