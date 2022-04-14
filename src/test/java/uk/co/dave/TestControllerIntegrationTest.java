@@ -29,8 +29,8 @@ public class TestControllerIntegrationTest {
   private WebTestClient webTestClient;
 
 
-  @Test
-  public void testPost() {
+  // @Test
+  public void tests() {
     MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
     multipartBodyBuilder.part("subject", "subject");
     multipartBodyBuilder.part("body", "body");
@@ -39,6 +39,17 @@ public class TestControllerIntegrationTest {
     multipartBodyBuilder.part("test", new TestDto("SomeData"), MediaType.APPLICATION_JSON);
     this.webTestClient.post().uri("/tests").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build())).header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange()
         .expectStatus().isOk().expectBody().json("{status:\"SomeData\"}");
+  }
+
+  @Test
+  public void tests1() {
+    MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
+    multipartBodyBuilder.part("subject", "subject");
+    multipartBodyBuilder.part("body", "body");
+    multipartBodyBuilder.part("topic", "topic");
+    multipartBodyBuilder.part("files", new FileSystemResource("/Users/meliad2/git/spring-cloud-contract-consumer-and-producer/src/test/resources/dave.txt"));
+    this.webTestClient.post().uri("/tests1").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build())).header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange()
+        .expectStatus().isOk();
   }
 
 }

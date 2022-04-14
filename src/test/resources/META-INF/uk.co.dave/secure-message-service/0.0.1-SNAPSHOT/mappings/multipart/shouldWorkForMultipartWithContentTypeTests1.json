@@ -1,0 +1,24 @@
+{
+  "id" : "6e47cc93-c492-4b60-b939-84a7f3aabe88",
+  "request" : {
+    "url" : "/tests1",
+    "method" : "POST",
+    "headers" : {
+      "Content-Type" : {
+        "matches" : "multipart/form-data.*"
+      }
+    },
+    "bodyPatterns" : [ {
+      "matches" : ".*--(.*)\r?\nContent-Disposition: form-data; name=\"files\"; filename=\"[\\S\\s]+\"\r?\n(Content-Type: .*\r?\n)?(Content-Transfer-Encoding: .*\r?\n)?(Content-Length: \\d+\r?\n)?\r?\n[\\S\\s]+\r?\n--.*"
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"status\":\"ok\"}",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "transformers" : [ "response-template", "spring-cloud-contract" ]
+  },
+  "uuid" : "6e47cc93-c492-4b60-b939-84a7f3aabe88"
+}

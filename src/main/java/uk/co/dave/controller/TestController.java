@@ -52,6 +52,19 @@ public class TestController {
     return result;
   }
 
+  @PostMapping("/tests1")
+  public Mono<TestDto> createNew1(@RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
+
+    Mono<TestDto> result = filePartFlux.collectList().flatMap(fileParts -> {
+      var builder = new MultipartBodyBuilder();
+      for (var file : fileParts) {
+        builder.part("files", file);
+      }
+      return webClient.post().uri("/tests1").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData(builder.build())).retrieve().bodyToMono(TestDto.class);
+    });
+
+    return result;
+  }
 
   @GetMapping("/tests")
   public TestDto get() {
