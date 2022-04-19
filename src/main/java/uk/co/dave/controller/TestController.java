@@ -32,7 +32,8 @@ public class TestController {
 
   @PostMapping("/1/customers/{customerId}/accounts/{accountId}/contract-test-endpoint")
   public Mono<ResponseEntity<Void>> hardcodedMultipart(@PathVariable("customerId") String customerId, @PathVariable("accountId") String accountId, @RequestPart FormFieldPart subject,
-      @RequestPart FormFieldPart body, @RequestPart FormFieldPart topic, @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
+      @RequestPart FormFieldPart body, @RequestPart FormFieldPart topic, @RequestPart(required = false) FormFieldPart conversationId,
+      @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
     log.info("hardcodedMultipart");
 
     return filePartFlux.flatMap(filePart -> {
@@ -48,7 +49,7 @@ public class TestController {
 
   @PostMapping("/1/customers/{customerId}/accounts/{accountId}/integration-test-endpoint")
   public Mono<TestDto> createNew1(@PathVariable("customerId") String customerId, @PathVariable("accountId") String accountId, @RequestPart FormFieldPart subject, @RequestPart FormFieldPart body,
-      @RequestPart FormFieldPart topic, @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
+      @RequestPart FormFieldPart topic, @RequestPart(required = false) FormFieldPart conversationId, @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
 
     Mono<TestDto> result = filePartFlux.collectList().flatMap(fileParts -> {
       var builder = new MultipartBodyBuilder();

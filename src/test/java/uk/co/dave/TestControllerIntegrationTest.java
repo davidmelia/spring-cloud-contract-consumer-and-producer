@@ -30,7 +30,7 @@ public class TestControllerIntegrationTest {
   private ResourceLoader resourceLoader;
 
   @Test
-  public void tests1() {
+  public void oneAttachement() {
     MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
     multipartBodyBuilder.part("subject", "subject");
     multipartBodyBuilder.part("body", "body");
@@ -40,4 +40,32 @@ public class TestControllerIntegrationTest {
         .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange().expectStatus().isOk();
   }
 
+  @Test
+  public void sevenPartsUploaded() {
+    MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
+    multipartBodyBuilder.part("subject", "subject");
+    multipartBodyBuilder.part("body", "body");
+    multipartBodyBuilder.part("topic", "GQ");
+    multipartBodyBuilder.part("conversationId", "convId");
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    this.webTestClient.post().uri("/api/1/customers/00000000000/accounts/0000000/integration-test-endpoint").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange().expectStatus().isOk();
+  }
+
+  @Test
+  public void eightPartsUploadedWhichIsAnError() {
+    MultipartBodyBuilder multipartBodyBuilder = new MultipartBodyBuilder();
+    multipartBodyBuilder.part("subject", "subject");
+    multipartBodyBuilder.part("body", "body");
+    multipartBodyBuilder.part("topic", "GQ");
+    multipartBodyBuilder.part("conversationId", "convId");
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    multipartBodyBuilder.part("files", resourceLoader.getResource("classpath:dave.txt"));
+    this.webTestClient.post().uri("/api/1/customers/00000000000/accounts/0000000/integration-test-endpoint").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange().expectStatus().is5xxServerError().expectBody().json("{}");
+  }
 }
