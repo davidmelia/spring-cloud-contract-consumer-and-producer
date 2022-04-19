@@ -7,7 +7,7 @@ public class TestOverrideConfiguration {
 
   @Autowired
   public TestOverrideConfiguration(StubFinder stubFinder, MyApplicationProperties properties) {
-    properties.setExternalServiceUrl(stubFinder.findStubUrl("secure-message-service").toExternalForm());
+    properties.setExternalServiceUrl(stubFinder.findStubUrl("some-external-service").toExternalForm());
   }
 }
 

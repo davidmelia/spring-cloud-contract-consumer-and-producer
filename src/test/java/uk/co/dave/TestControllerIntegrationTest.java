@@ -18,7 +18,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {MyApplication.class, TestOverrideConfiguration.class}, webEnvironment = WebEnvironment.RANDOM_PORT)
-@AutoConfigureStubRunner(stubsMode = StubsMode.CLASSPATH, ids = {"uk.co.dave:secure-message-service:+:stubs"})
+@AutoConfigureStubRunner(stubsMode = StubsMode.CLASSPATH, ids = {"uk.co.dave:some-external-service:+:stubs"})
 @AutoConfigureWebTestClient(timeout = "1m")
 // @Disabled
 public class TestControllerIntegrationTest {
