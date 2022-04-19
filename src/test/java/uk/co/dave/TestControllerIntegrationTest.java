@@ -49,8 +49,8 @@ public class TestControllerIntegrationTest {
     multipartBodyBuilder.part("body", "body");
     multipartBodyBuilder.part("topic", "GQ");
     multipartBodyBuilder.part("files", new FileSystemResource("/Users/meliad2/git/spring-cloud-contract-consumer-and-producer/src/test/resources/dave.txt"));
-    this.webTestClient.post().uri("/tests1").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build())).header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange()
-        .expectStatus().isOk();
+    this.webTestClient.post().uri("/api/1/customers/00000000000/accounts/0000000/tests1").body(BodyInserters.fromMultipartData(multipartBodyBuilder.build()))
+        .header(HttpHeaders.CONTENT_TYPE, MediaType.MULTIPART_FORM_DATA_VALUE).exchange().expectStatus().isOk();
   }
 
 }

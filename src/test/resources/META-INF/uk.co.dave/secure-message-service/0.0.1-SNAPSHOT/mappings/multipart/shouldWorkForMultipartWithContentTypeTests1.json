@@ -1,7 +1,7 @@
 {
   "id" : "29a36e16-aba5-4ede-ae5e-3fd5fef227fb",
   "request" : {
-    "url" : "/tests1",
+    "url" : "/api/1/customers/00000000000/accounts/0000000/tests1",
     "method" : "POST",
     "headers" : {
       "Content-Type" : {
