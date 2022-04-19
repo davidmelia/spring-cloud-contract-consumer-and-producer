@@ -3,7 +3,7 @@ import org.springframework.cloud.contract.spec.Contract
 Contract.make {
 	request {
 		method 'POST'
-		url '/api/1/customers/00000000000/accounts/0000000/tests1'
+		url '/api/1/customers/00000000000/accounts/0000000/wiremock-endpoint'
 		multipart(
 				[
 		                subject: $(c(regex(nonEmpty())), p('subject')),

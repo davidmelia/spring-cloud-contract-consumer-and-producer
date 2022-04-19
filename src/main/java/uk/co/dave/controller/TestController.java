@@ -30,7 +30,7 @@ public class TestController {
     this.webClient = builder.baseUrl(props.getExternalServiceUrl()).build();
   }
 
-  @PostMapping("/1/customers/{customerId}/accounts/{accountId}/endpoint-for-contract-tests")
+  @PostMapping("/1/customers/{customerId}/accounts/{accountId}/contract-test-endpoint")
   public Mono<ResponseEntity<Void>> hardcodedMultipart(@PathVariable("customerId") String customerId, @PathVariable("accountId") String accountId, @RequestPart FormFieldPart subject,
       @RequestPart FormFieldPart body, @RequestPart FormFieldPart topic, @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
     log.info("hardcodedMultipart");
@@ -46,22 +46,7 @@ public class TestController {
     }).collectList().thenReturn(new ResponseEntity<Void>(HttpStatus.CREATED));
   }
 
-  @PostMapping("/1/customers/{customerId}/accounts/{accountId}/tests")
-  public Mono<TestDto> createNew(@RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux, @RequestPart(name = "test") TestDto test) {
-
-    Mono<TestDto> result = filePartFlux.collectList().flatMap(fileParts -> {
-      var builder = new MultipartBodyBuilder();
-      for (var file : fileParts) {
-        builder.part("files", file);
-      }
-      builder.part("test", test, MediaType.APPLICATION_JSON);
-      return webClient.post().uri("/tests").contentType(MediaType.MULTIPART_FORM_DATA).body(BodyInserters.fromMultipartData(builder.build())).retrieve().bodyToMono(TestDto.class);
-    });
-
-    return result;
-  }
-
-  @PostMapping("/1/customers/{customerId}/accounts/{accountId}/tests1")
+  @PostMapping("/1/customers/{customerId}/accounts/{accountId}/integration-test-endpoint")
   public Mono<TestDto> createNew1(@PathVariable("customerId") String customerId, @PathVariable("accountId") String accountId, @RequestPart FormFieldPart subject, @RequestPart FormFieldPart body,
       @RequestPart FormFieldPart topic, @RequestPart(value = "files", required = false) Flux<FilePart> filePartFlux) {
 
@@ -75,7 +60,7 @@ public class TestController {
       for (var file : fileParts) {
         builder.part("files", file);
       }
-      return webClient.post().uri("/api/1/customers/{customerId}/accounts/{accountId}/tests1", customerId, accountId).contentType(MediaType.MULTIPART_FORM_DATA)
+      return webClient.post().uri("/api/1/customers/{customerId}/accounts/{accountId}/wiremock-endpoint", customerId, accountId).contentType(MediaType.MULTIPART_FORM_DATA)
           .body(BodyInserters.fromMultipartData(builder.build())).retrieve().bodyToMono(TestDto.class);
     });
 
